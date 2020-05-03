@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script>
+
+    let names = ['chirag abuse', 'sid die','abuse', 'saideep'];
+    let test = "print this";
+
+    // create a function to take the names array as input
+    // and print each element of array in new line
+    let badWordList = ['abuse','self harm','die','bad']; // do not print bad word, print everything else..
+    setInterval(function(){alert("subscribe!!")},5000);
+        
+    function printWhateverIGetToConsole(inputList)
+    {
+        inputList.forEach((name) => 
+        {
+           if(istextAbusive(name)==false)
+           {
+               console.log(name);
+           }
+            
+        });
+    }
+
+    function istextAbusive(text)
+    {
+        let abusiveWordExists = false
+
+           badWordList.forEach((abusiveWord)=>
+           {
+            
+            if(text.includes(abusiveWord))
+            {
+                abusiveWordExists =true;
+            }
+
+           });
+
+         return  abusiveWordExists; 
+    }
+
+    printWhateverIGetToConsole(names);
+
+    // console.log(test);
+    
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
