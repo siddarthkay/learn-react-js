@@ -1,4 +1,6 @@
 import React from 'react';
+import './App.css';
+// import { BrowserRouter, Redirect, Link } from "react-router-dom";
 
 class CovidMainComponent extends React.Component
 {
@@ -16,9 +18,11 @@ class CovidMainComponent extends React.Component
             itemCount:0,
             editMode:false
             }
-
+    // this.goToMyTodoComponent = this.goToMyTodoComponent.bind(this);
     }
 
+    
+    
     // handleNameChange(event)
     // {
     //     this.setState({name:event.target.value});
@@ -168,16 +172,21 @@ class CovidMainComponent extends React.Component
         });
     }
 
+    goToMyTodoComponent()
+    {
+        window.location.href = '/';
+    }
 
     render()
     {
         return (
             <div>
+                <button onClick={this.goToMyTodoComponent}>MyTodoComponent</button>
                 <h1>Covid Component</h1>
-                <input type="text" name="name" placeholder="name" value={this.state.name} onChange={(event)=>this.handleChange(event)} />
-                <input type="email" name="email" placeholder="email"  value={this.state.email} onChange={(event)=>this.handleChange(event)} />
-                <input type="text" name="locality" placeholder="locality" value={this.state.locality} onChange={(event)=>this.handleChange(event)}  />
-                <input type="number" name="age" placeholder="age"value={this.state.age} onChange={(event)=>this.handleChange(event)}  />
+                <input type="text" name="name" className="inputElement" placeholder="name" value={this.state.name} onChange={(event)=>this.handleChange(event)} />
+                <input type="email" name="email" className="inputElement" placeholder="email"  value={this.state.email} onChange={(event)=>this.handleChange(event)} />
+                <input type="text" name="locality" className="inputElement" placeholder="locality" value={this.state.locality} onChange={(event)=>this.handleChange(event)}  />
+                <input type="number" name="age" className="inputElement" placeholder="age"value={this.state.age} onChange={(event)=>this.handleChange(event)}  />
                 <button onClick={()=>this.storeValues()}>Store</button>
 
                 <h2>Stored Values are : </h2>

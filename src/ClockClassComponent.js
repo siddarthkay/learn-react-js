@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Link} from 'react-router-dom'
 
 class ClockClassComponent extends React.Component
 {
@@ -40,6 +41,7 @@ class ClockClassComponent extends React.Component
     render(){
         return (      
                 <div>
+                    <Link to="/Crud">Link to go to Crud covid component</Link>
                     <h1>Hola! </h1>
                     <h3>Time now is {this.state.date.toLocaleTimeString()}</h3>
                 </div>);

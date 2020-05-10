@@ -1,5 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Form from 'react-bootstrap/Form';
+
 
 class MyTodoComponent extends React.Component 
 {
@@ -15,6 +21,23 @@ class MyTodoComponent extends React.Component
         this.addItemToTask =this.addItemToTask.bind(this);
         this.markDone =this.markDone.bind(this);
     
+    }
+
+    componentDidMount()
+    {
+        fetch('https://jsonplaceholder.typicode.com/todos')
+        .then(response => response.json())
+        .then(todoList => {
+            // console.log("data received from api call ="+json)
+            let existingTaskList = this.state.pendingtaskList;
+            // put 200 tasks to my local variable existingTaskList
+            todoList.map((task)=>{
+                existingTaskList.push(task);
+            });
+            // push existingTaskList to state
+            this.setState({pendingtaskList:existingTaskList});
+        }).
+        catch(error =>console.log("there was an error "+error));
     }
     
 
@@ -65,27 +88,87 @@ class MyTodoComponent extends React.Component
     render()
     {
         return (
-            <div>
-                <h1>Hi I am MyTodoComponent</h1>
-                <input type="text" value={this.state.task} onChange={this.handleTaskTyping} />
-                <button onClick={this.addItemToTask}>Add to Task</button>
-                <h2> Pending Tasks So far </h2>
+            <Container>
+
+                <h2>Todo Form</h2>
+                <Form>
+                <Form.Group controlId="formBasicEmail">
+                    <Form.Label>Enter Task</Form.Label>
+                    <Form.Control type="text" placeholder="Enter Task" value={this.state.task} onChange={this.handleTaskTyping}  />
+                    <Form.Text className="text-muted">
+                    Try to enter the task which you need to complete
+                    </Form.Text>
+                </Form.Group>
+
+                <Button variant="primary" type="button" onClick={this.addItemToTask}>
+                    Add to Task
+                </Button>
+                </Form>
+                
+
+                {/* <PendingListComponent data = {this.state.pendingtaskList} /> will complete later */}
+                { this.state.pendingtaskList.length>0 ?<h2> Pending Tasks So far </h2>:<h2> No pending tasks</h2> }
+                
                     <ul>
-                        {this.state.pendingtaskList.map((task)=>
-                            <li>{task}
-                            <button onClick={()=> this.markDone(task)}> done </button></li>
+                        {  this.state.pendingtaskList.map((task)=>
+                            <li>{task.title}
+                            <button onClick={()=> this.markDone(task.id)}> done </button></li>
                         )}
                     </ul>
-                <h2> Completed Tasks </h2>
+                {this.state.completedTaskList.length>0?<h2> Completed Tasks </h2>:null }    
                 <ul>
                         {this.state.completedTaskList.map((task)=>
                             <li>{task}
                             <button onClick={()=> this.markDone(task)}> done </button></li>
                         )}
                     </ul>
-            </div>
+            </Container>
             );
     }    
 }
+
+//to finish later when converting class component to functional component.
+class PendingListComponent extends React.Component
+{
+    constructor(props)
+    {
+        super(props);
+        this.state = {
+            heading :''
+        }
+    }
+
+    componentDidMount()
+    {
+        if(this.props.data.length>0)
+        {
+            this.setState({heading:'Pending Tasks So far'})           
+        }
+        else
+        {
+            this.setState({heading:'No Pending Tasks'})            
+        }
+
+    }
+
+
+
+    render()
+    {
+        return (
+            <ul>
+                {this.props.data.map((task)=>(
+                <div>
+                    <h2>{this.state.heading}</h2>
+                    <li>{task}
+                        <button onClick={()=> this.markDone(task)}> done </button>
+                    </li>
+                </div>))}
+            </ul>
+        );
+    }
+
+    
+} 
 
 export default MyTodoComponent;

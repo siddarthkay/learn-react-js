@@ -4,5 +4,41 @@ import ClockClassComponent from './ClockClassComponent';
 import MyTodoComponent from './MyTodoComponent';
 import CovidMainComponent from './CovidMainComponent';
 
-ReactDOM.render(<CovidMainComponent />
+import { BrowserRouter, Switch, Route,Link } from "react-router-dom";
+
+function AppRoutes()
+{
+    return (
+        <BrowserRouter>
+
+        {/* <nav>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/Crud">Crud Covid Example</Link>
+            </li>
+            <li>
+              <Link to="/Clock">Clock example that updates every second</Link>
+            </li>
+          </ul>
+        </nav> */}
+            <Switch>
+                <Route path="/Clock">
+                    <ClockClassComponent />
+                </Route>
+                <Route path="/Crud">
+                    <CovidMainComponent />
+                </Route>
+                <Route path="/">
+                    <MyTodoComponent />
+                </Route>
+            </Switch>
+
+        </BrowserRouter>
+    );
+}
+
+ReactDOM.render(<AppRoutes /> 
             ,document.getElementById('root'));
