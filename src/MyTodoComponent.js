@@ -15,6 +15,7 @@ class MyTodoComponent extends React.Component
         this.state = {
             pendingtaskList : [],
             completedTaskList:[],
+            lastIndex:0,
             task:''
         }
         this.handleTaskTyping =this.handleTaskTyping.bind(this);
@@ -35,7 +36,7 @@ class MyTodoComponent extends React.Component
                 existingTaskList.push(task);
             });
             // push existingTaskList to state
-            this.setState({pendingtaskList:existingTaskList});
+            this.setState({pendingtaskList:existingTaskList,lastIndex:existingTaskList.length});
         }).
         catch(error =>console.log("there was an error "+error));
     }
@@ -51,23 +52,26 @@ class MyTodoComponent extends React.Component
     {
         let pendingtaskListCopy = this.state.pendingtaskList;
         let completedTaskListCopy = this.state.completedTaskList;
+        let lastIndexCopy = this.state.lastIndex;
 
         // remove from existing task list
-        for(let i =0;i<pendingtaskListCopy.length;i++)
+        for(let i = 0;i<pendingtaskListCopy.length;i++)
         {
-            if(pendingtaskListCopy[i]==task)
+            if(pendingtaskListCopy[i].id == task.id)
             {
                 pendingtaskListCopy.splice(i,1);
                 break;
             }
         }
+        
 
         // add to completed task list
         completedTaskListCopy.push(task);
         
         this.setState({
             completedTaskList: completedTaskListCopy,
-            pendingtaskList : pendingtaskListCopy
+            pendingtaskList : pendingtaskListCopy,
+            lastIndex:lastIndexCopy-1
         });
     }
 
@@ -76,12 +80,22 @@ class MyTodoComponent extends React.Component
 
         let taskValue = this.state.task;
         let currentTaskList = this.state.pendingtaskList;
+        let lastIndexCopy = this.state.lastIndex;
+        let currentIndex = lastIndexCopy+1;
 
-        currentTaskList.push(taskValue);
+        let task = {
+            "userId":6,
+            "id":currentIndex,
+            "title":taskValue,
+            "completed":"false",
+        }
+
+        currentTaskList.push(task);
 
         this.setState({
             task:'',
-            pendingtaskList : currentTaskList
+            pendingtaskList : currentTaskList,
+            lastIndex:currentIndex
         });
     }
 
@@ -111,15 +125,14 @@ class MyTodoComponent extends React.Component
                 
                     <ul>
                         {  this.state.pendingtaskList.map((task)=>
-                            <li>{task.title}
-                            <button onClick={()=> this.markDone(task.id)}> done </button></li>
+                            <li>{task.id} | {task.title}
+                            <button onClick={()=> this.markDone(task)}> done </button></li>
                         )}
                     </ul>
                 {this.state.completedTaskList.length>0?<h2> Completed Tasks </h2>:null }    
                 <ul>
                         {this.state.completedTaskList.map((task)=>
-                            <li>{task}
-                            <button onClick={()=> this.markDone(task)}> done </button></li>
+                            <li>{task.id} | {task.title}</li>
                         )}
                     </ul>
             </Container>

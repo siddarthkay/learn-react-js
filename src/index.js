@@ -4,6 +4,8 @@ import ClockClassComponent from './ClockClassComponent';
 import MyTodoComponent from './MyTodoComponent';
 import CovidMainComponent from './CovidMainComponent';
 
+import MyTodoHooksComponent from './MyTodoHooksComponent';
+
 import { BrowserRouter, Switch, Route,Link } from "react-router-dom";
 
 function AppRoutes()
@@ -32,7 +34,7 @@ function AppRoutes()
                     <CovidMainComponent />
                 </Route>
                 <Route path="/">
-                    <MyTodoComponent />
+                    <MyTodoHooksComponent />
                 </Route>
             </Switch>
 
