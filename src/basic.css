@@ -1,0 +1,46 @@
+.headingStyle {
+    padding-top: 40px;
+    text-align: center;
+    color: purple;
+    font-family: monospace;
+    font-size: 70px;
+}
+
+.subHeadingStyle {
+    padding-top: 20px;
+    padding-bottom:20px;
+    text-align: center;
+    color: purple;
+    font-family: monospace;
+    font-size: 30px;
+}
+
+.buttonsArea {
+    justify-content:center;
+    padding-top: 30px;
+}
+
+.reset-btn{
+    margin-left: 20px;
+}
+
+td {
+    width:90px;
+    height:90px;
+}
+
+a {
+    width:90px;
+    height:90px;
+}
+
+.boardArea{
+    margin-top: 20px;
+}
+
+.boxbutton{
+    height: 90px;
+    width: 90px;
+    border: 0;
+    padding: 0px;
+}

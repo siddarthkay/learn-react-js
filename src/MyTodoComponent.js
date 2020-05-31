@@ -26,7 +26,13 @@ class MyTodoComponent extends React.Component
 
     componentDidMount()
     {
-        fetch('https://jsonplaceholder.typicode.com/todos')
+        var formBody = {
+            name : 'sid',
+            email : 'sid@centilliontech.in'
+        };
+        fetch('https://jsonplaceholder.typicode.com/todos',{
+            method:'POST',
+            body:formBody})
         .then(response => response.json())
         .then(todoList => {
             // console.log("data received from api call ="+json)
@@ -39,6 +45,11 @@ class MyTodoComponent extends React.Component
             this.setState({pendingtaskList:existingTaskList,lastIndex:existingTaskList.length});
         }).
         catch(error =>console.log("there was an error "+error));
+    }
+
+    componentDidUpdate()
+    {
+        
     }
     
 

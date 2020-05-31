@@ -6,6 +6,8 @@ import CovidMainComponent from './CovidMainComponent';
 
 import MyTodoHooksComponent from './MyTodoHooksComponent';
 
+import TicTacToe from './TicTacToe';
+
 import { BrowserRouter, Switch, Route,Link } from "react-router-dom";
 
 function AppRoutes()
@@ -34,7 +36,7 @@ function AppRoutes()
                     <CovidMainComponent />
                 </Route>
                 <Route path="/">
-                    <MyTodoHooksComponent />
+                    <TicTacToe />
                 </Route>
             </Switch>
 
