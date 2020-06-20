@@ -9,10 +9,25 @@ function TicTacToe()
     let [player1,setPlayer1]= useState('');
     let [player2,setPlayer2]= useState('');
     let [begin,setBegin]=useState(false);
-    let [turn,setTurn]=useState(1);
-    let [turnValue,setTurnValue]=useState('');
     let [numberOfTurns,setNumberOfTurns]=useState(0);
 
+    let grid = ['-','-','-','-','-','-','-','-','-'];
+
+    let resultSet = [
+        [0,1,2],
+        [0,3,6],
+        [0,4,8],
+        [1,4,7],
+        [2,5,8],
+        [2,4,6],
+        [3,4,5],
+        [6,7,8],
+    ];
+
+    let [matrix,setMatrix]=useState(grid);
+    let [turn,setTurn]=useState(1);
+    let [xPlacement,setXPlacement]=useState([]);
+    let [oPlacement,setOPlacement]=useState([]);
 
     function handlePlayer1Change(event)
     {
@@ -25,26 +40,65 @@ function TicTacToe()
     }
 
     function initiateGame()
-    {
+    {   
+        if(player1.length>0 && player2.length>0)
         setBegin(true);
+        else
+        alert("please enter both the player names before moving forward.");
     }
 
-    function freezePlayerChoice()
+    function resetGame()
     {
-        setTurn(2);
+        setBegin(false);
+        setPlayer1('');
+        setPlayer2('');
+        setMatrix(grid);
     }
 
-    useEffect(()=>{
-        if(turn==1)
+    function boxClick(position)
+    {
+        let matrixShadow = [...matrix];
+        let xPlacementShadow = [...xPlacement];
+        let oPlacementShadow = [...oPlacement];
+
+        if(turn===1)
         {
-            setTurnValue('X');
+            matrixShadow[position]='X';
+            xPlacementShadow.push(position);
+            setXPlacement(xPlacementShadow);
+            setTurn(2);
         }
         else
         {
-            setTurnValue('O');
+            matrixShadow[position]='O';
+            oPlacementShadow.push(position);
+            setOPlacement(oPlacementShadow);
+            setTurn(1);
         }
-    },[]);
+
+        calculateResult();
+        setNumberOfTurns(numberOfTurns+1);
+        setMatrix(matrixShadow);
+        
+    }
+
+    function UndoLastChoice()
+    {
+        // need to keep track of what happened last and revert it...
+    }
     
+    function calculateResult()
+    {
+        resultSet.forEach(solution => {
+            if(xPlacement.includes(solution[0]) && 
+               xPlacement.includes(solution[1]) &&
+               xPlacement.includes(solution[2]))
+               {
+                   alert("Player 1 wins");
+               }
+            
+        });
+    }
 
     return (
   
@@ -78,72 +132,53 @@ function TicTacToe()
                     </Col>
                 </Row>
                 <Row className="buttonsArea">
-                    <Button variant="outline-success" onClick={initiateGame}>Begin!</Button>
-                    <Button variant="outline-danger" className="reset-btn">Reset!</Button>
+                    {!begin?<Button variant="outline-success" onClick={initiateGame}>Begin!</Button>:null}
+                    <Button variant="outline-danger" className="reset-btn" onClick={resetGame}>Reset!</Button>
                 </Row>
             </Form>
 
-            {begin==true?
+            {begin===true?
                 <div>
                     Player 1 = {player1} and will be using X <br />
                     Player 2 = {player2} and will be using 0s <br />
 
-                    Its {turn==1?player1:player2}'s turn now!
+                    Its {turn===1?player1:player2}'s turn now! <br />
+
+                    Number of turns so far  = {numberOfTurns} <br />
+
+                    <a onClick={UndoLastChoice} href="#">Undo Last Turn</a>
 
                     <div className="boardArea">
-                        <Row>
-                            <Col>
-                                <table border="1px">
-                                    <tbody>
-                                        <tr>
-                                            <Box boxValue={turn==1?"X":"O"} />
-                                            <Box boxValue={turn==1?"X":"O"} />
-                                            <Box boxValue={turn==1?"X":"O"} />
-                                        </tr>
-                                        <tr>
-                                            <Box boxValue={turn==1?"X":"O"} />
-                                            <Box boxValue={turn==1?"X":"O"} />
-                                            <Box boxValue={turn==1?"X":"O"} />
-                                        </tr>
-                                        <tr>
-                                            <Box boxValue={turn==1?"X":"O"}/>
-                                            <Box boxValue={turn==1?"X":"O"} />
-                                            <Box boxValue={turn==1?"X":"O"} />
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </Col>
-                            <Col><Button variant="outline-success" onClick={freezePlayerChoice}>Freeze!</Button></Col>
-                        </Row>
-                        
-                        
-                    </div>
-                    
-
+                    <Row>
+                        <Col>
+                            <table border="1px">
+                                <tbody>
+                                    <tr>
+                                        <td><button className="boxbutton" onClick={()=>boxClick(0)}> {matrix[0]} </button></td>
+                                        <td><button className="boxbutton" onClick={()=>boxClick(1)}> {matrix[1]} </button></td>
+                                        <td><button className="boxbutton" onClick={()=>boxClick(2)}> {matrix[2]} </button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><button className="boxbutton" onClick={()=>boxClick(3)}> {matrix[3]} </button></td>
+                                        <td><button className="boxbutton" onClick={()=>boxClick(4)}> {matrix[4]} </button></td>
+                                        <td><button className="boxbutton" onClick={()=>boxClick(5)}> {matrix[5]} </button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><button className="boxbutton" onClick={()=>boxClick(6)}> {matrix[6]} </button></td>
+                                        <td><button className="boxbutton" onClick={()=>boxClick(7)}> {matrix[7]} </button></td>
+                                        <td><button className="boxbutton" onClick={()=>boxClick(8)}> {matrix[8]} </button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </Col>
+                    </Row>
+                    </div>                    
                 </div>
             :null}
 
         </Container>
         
     );
-}
-
-function Box(props)
-{
-    let [display,setDisplay] = useState(false);
-
-    function boxClick()
-    {
-        setDisplay(true);
-    }
-
-    return (
-        <td><button className="boxbutton" onClick={boxClick}> {display?props.boxValue:null}</button></td>
-    );
-}
-
-const styles = {
-   
 }
 
 export default TicTacToe;
